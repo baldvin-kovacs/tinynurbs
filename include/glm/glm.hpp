@@ -2,6 +2,7 @@
 #define THIRD_PARTY_TINYNURBS_INCLUDE_GLM_GLM_H
 
 #include "third_party/skia/include/core/SkPoint3.h"
+#include "third_party/skia/include/core/SkPoint.h"
 #include "third_party/skia/include/core/SkScalar.h"
 
 namespace glm {
@@ -22,9 +23,29 @@ class vec<3, SkScalar> {
     sk_vector = v;
     return *this;
   }
- 
+
+  vec(SkVector const& v) : sk_vector{v.fX, v.fY, 0} {}
+  vec<3, SkScalar>& operator=(SkVector const& v) {
+    sk_vector = SkVector3::Make(v.fX, v.fY, 0);
+    return *this;
+  }
+
+  vec(SkScalar s) : sk_vector{s, s, s} {}
+  vec<3, SkScalar>& operator=(SkScalar s) {
+    sk_vector = SkVector3::Make(s, s, s);
+    return *this;
+  }
+
+  void operator+=(const vec<3, SkScalar>& v) {
+    return sk_vector += v.sk_vector;
+  }
+
   SkVector3 sk_vector;
 };
+
+vec<3, SkScalar> operator*(SkScalar t, vec<3, SkScalar> p) {
+  return t * p.sk_vector;
+}
 
 template<typename v>
 SkScalar length(v const& a);
