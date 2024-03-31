@@ -69,7 +69,7 @@ void curveKnotInsert(unsigned int deg, const std::vector<T> &knots,
     }
     // Copy unaffected control points
     new_cp.resize(cp.size() + r);
-    for (int i = 0; i < k - deg + 1; ++i)
+    for (unsigned int i = 0; i < k - deg + 1; ++i)
     {
         new_cp[i] = cp[i];
     }
@@ -80,15 +80,15 @@ void curveKnotInsert(unsigned int deg, const std::vector<T> &knots,
     // Copy affected control points
     std::vector<glm::vec<dim, T>> tmp;
     tmp.resize(deg - s + 1);
-    for (int i = 0; i < deg - s + 1; ++i)
+    for (unsigned int i = 0; i < deg - s + 1; ++i)
     {
         tmp[i] = cp[k - deg + i];
     }
     // Modify affected control points
-    for (int j = 1; j <= r; ++j)
+    for (unsigned int j = 1; j <= r; ++j)
     {
         int L = k - deg + j;
-        for (int i = 0; i < deg - j - s + 1; ++i)
+        for (unsigned int i = 0; i < deg - j - s + 1; ++i)
         {
             T a = (u - knots[L + i]) / (knots[i + k + 1] - knots[L + i]);
             tmp[i] = (1 - a) * tmp[i] + a * tmp[i + 1];
@@ -97,7 +97,7 @@ void curveKnotInsert(unsigned int deg, const std::vector<T> &knots,
         new_cp[k + r - j - s] = tmp[deg - j - s];
     }
     int L = k - deg + r;
-    for (int i = L + 1; i < k - s; ++i)
+    for (unsigned int i = L + 1; i < k - s; ++i)
     {
         new_cp[i] = tmp[i - L];
     }
@@ -139,7 +139,7 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
     {
         new_knots[i] = knots[i];
     }
-    for (int i = 1; i <= r; ++i)
+    for (unsigned int i = 1; i <= r; ++i)
     {
         new_knots[span + i] = knot;
     }
@@ -149,10 +149,10 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
     }
     // Compute alpha
     array2<T> alpha(degree - s, r + 1, T(0));
-    for (int j = 1; j <= r; ++j)
+    for (unsigned int j = 1; j <= r; ++j)
     {
         int L = span - degree + j;
-        for (int i = 0; i <= degree - j - s; ++i)
+        for (unsigned int i = 0; i <= degree - j - s; ++i)
         {
             alpha(i, j) = (knot - knots[L + i]) / (knots[i + span + 1] - knots[L + i]);
         }
@@ -171,7 +171,7 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
         for (int col = 0; col < cp.cols(); ++col)
         {
             // Copy unaffected control points
-            for (int i = 0; i <= span - degree; ++i)
+            for (unsigned int i = 0; i <= span - degree; ++i)
             {
                 new_cp(i, col) = cp(i, col);
             }
@@ -180,15 +180,15 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
                 new_cp(i + r, col) = cp(i, col);
             }
             // Copy affected control points to temp array
-            for (int i = 0; i < degree - s + 1; ++i)
+            for (unsigned int i = 0; i < degree - s + 1; ++i)
             {
                 tmp[i] = cp(span - degree + i, col);
             }
             // Insert knot
-            for (int j = 1; j <= r; ++j)
+            for (unsigned int j = 1; j <= r; ++j)
             {
                 int L = span - degree + j;
-                for (int i = 0; i <= degree - j - s; ++i)
+                for (unsigned int i = 0; i <= degree - j - s; ++i)
                 {
                     T a = alpha(i, j);
                     tmp[i] = (1 - a) * tmp[i] + a * tmp[i + 1];
@@ -197,7 +197,7 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
                 new_cp(span + r - j - s, col) = tmp[degree - j - s];
             }
             int L = span - degree + r;
-            for (int i = L + 1; i < span - s; ++i)
+            for (unsigned int i = L + 1; i < span - s; ++i)
             {
                 new_cp(i, col) = tmp[i - L];
             }
@@ -213,7 +213,7 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
         for (int row = 0; row < cp.rows(); ++row)
         {
             // Copy unaffected control points
-            for (int i = 0; i <= span - degree; ++i)
+            for (unsigned int i = 0; i <= span - degree; ++i)
             {
                 new_cp(row, i) = cp(row, i);
             }
@@ -222,15 +222,15 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
                 new_cp(row, i + r) = cp(row, i);
             }
             // Copy affected control points to temp array
-            for (int i = 0; i < degree - s + 1; ++i)
+            for (unsigned int i = 0; i < degree - s + 1; ++i)
             {
                 tmp[i] = cp(row, span - degree + i);
             }
             // Insert knot
-            for (int j = 1; j <= r; ++j)
+            for (unsigned int j = 1; j <= r; ++j)
             {
                 int L = span - degree + j;
-                for (int i = 0; i <= degree - j - s; ++i)
+                for (unsigned int i = 0; i <= degree - j - s; ++i)
                 {
                     T a = alpha(i, j);
                     tmp[i] = (1 - a) * tmp[i] + a * tmp[i + 1];
@@ -239,7 +239,7 @@ void surfaceKnotInsert(unsigned int degree, const std::vector<T> &knots,
                 new_cp(row, span + r - j - s) = tmp[degree - j - s];
             }
             int L = span - degree + r;
-            for (int i = L + 1; i < span - s; ++i)
+            for (unsigned int i = L + 1; i < span - s; ++i)
             {
                 new_cp(row, i) = tmp[i - L];
             }
@@ -284,7 +284,7 @@ void curveSplit(unsigned int degree, const std::vector<T> &knots,
     }
     left_knots.push_back(u);
 
-    for (int i = 0; i < degree + 1; ++i)
+    for (unsigned int i = 0; i < degree + 1; ++i)
     {
         right_knots.push_back(u);
     }
@@ -340,7 +340,7 @@ void surfaceSplit(unsigned int degree, const std::vector<T> &knots,
     }
     left_knots.push_back(param);
 
-    for (int i = 0; i < degree + 1; ++i)
+    for (unsigned int i = 0; i < degree + 1; ++i)
     {
         right_knots.push_back(param);
     }
@@ -354,7 +354,7 @@ void surfaceSplit(unsigned int degree, const std::vector<T> &knots,
     {
         size_t ii = 0;
         left_control_points.resize(ks + r, tmp_cp.cols());
-        for (int i = 0; i < ks + r; ++i)
+        for (unsigned int i = 0; i < ks + r; ++i)
         {
             for (int j = 0; j < tmp_cp.cols(); ++j)
             {
@@ -377,7 +377,7 @@ void surfaceSplit(unsigned int degree, const std::vector<T> &knots,
         left_control_points.resize(tmp_cp.rows(), ks + r);
         for (int i = 0; i < tmp_cp.rows(); ++i)
         {
-            for (int j = 0; j < ks + r; ++j)
+            for (unsigned int j = 0; j < ks + r; ++j)
             {
                 left_control_points[ii++] = tmp_cp(i, j);
             }

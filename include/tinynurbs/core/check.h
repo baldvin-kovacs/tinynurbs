@@ -164,7 +164,7 @@ bool surfaceIsValid(unsigned int degree_u, unsigned int degree_v, const std::vec
  */
 template <typename T> bool isKnotVectorClosed(unsigned int degree, const std::vector<T> &knots)
 {
-    for (int i = 0; i < degree - 1; ++i)
+    for (unsigned int i = 0; i < degree - 1; ++i)
     {
         int j = knots.size() - degree + i;
         if (std::abs((knots[i + 1] - knots[i]) - (knots[j + 1] - knots[j])) >
@@ -185,7 +185,7 @@ template <typename T> bool isKnotVectorClosed(unsigned int degree, const std::ve
  */
 template <typename T> bool isArray1Closed(unsigned int degree, const std::vector<T> &vec)
 {
-    for (int i = 0; i < degree; ++i)
+    for (unsigned int i = 0; i < degree; ++i)
     {
         int j = vec.size() - degree + i;
         if (glm::length(vec[i] - vec[j]) > 1e-5)
@@ -205,7 +205,7 @@ template <typename T> bool isArray1Closed(unsigned int degree, const std::vector
  */
 template <typename T> bool isArray2ClosedU(unsigned int degree_u, const array2<T> &arr)
 {
-    for (int i = 0; i < degree_u; ++i)
+    for (unsigned int i = 0; i < degree_u; ++i)
     {
         for (int j = 0; j < arr.cols(); ++j)
         {
@@ -228,9 +228,9 @@ template <typename T> bool isArray2ClosedU(unsigned int degree_u, const array2<T
  */
 template <typename T> bool isArray2ClosedV(unsigned int degree_v, const array2<T> &arr)
 {
-    for (int i = 0; i < arr.rows(); ++i)
+    for (unsigned int i = 0; i < arr.rows(); ++i)
     {
-        for (int j = 0; j < degree_v; j++)
+        for (unsigned int j = 0; j < degree_v; j++)
         {
             int k = arr.rows() - degree_v + i;
             if (glm::length(arr(i, j) - arr(i, k)) > 1e-5)

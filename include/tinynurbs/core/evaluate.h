@@ -124,10 +124,10 @@ glm::vec<dim, T> surfacePoint(unsigned int degree_u, unsigned int degree_v,
     std::vector<T> Nu = bsplineBasis(degree_u, span_u, knots_u, u);
     std::vector<T> Nv = bsplineBasis(degree_v, span_v, knots_v, v);
 
-    for (int l = 0; l <= degree_v; l++)
+    for (unsigned int l = 0; l <= degree_v; l++)
     {
         glm::vec<dim, T> temp(0.0);
-        for (int k = 0; k <= degree_u; k++)
+        for (unsigned int k = 0; k <= degree_u; k++)
         {
             temp += static_cast<T>(Nu[k]) *
                     control_points(span_u - degree_u + k, span_v - degree_v + l);
@@ -160,9 +160,9 @@ surfaceDerivatives(unsigned int degree_u, unsigned int degree_v, const std::vect
     array2<glm::vec<dim, T>> surf_ders(num_ders + 1, num_ders + 1, glm::vec<dim, T>(0.0));
 
     // Set higher order derivatives to 0
-    for (int k = degree_u + 1; k <= num_ders; k++)
+    for (unsigned int k = degree_u + 1; k <= num_ders; k++)
     {
-        for (int l = degree_v + 1; l <= num_ders; l++)
+        for (unsigned int l = degree_v + 1; l <= num_ders; l++)
         {
             surf_ders(k, l) = glm::vec<dim, T>(0.0);
         }
@@ -181,12 +181,12 @@ surfaceDerivatives(unsigned int degree_u, unsigned int degree_v, const std::vect
     std::vector<glm::vec<dim, T>> temp;
     temp.resize(degree_v + 1);
     // Compute derivatives
-    for (int k = 0; k <= du; k++)
+    for (unsigned int k = 0; k <= du; k++)
     {
-        for (int s = 0; s <= degree_v; s++)
+        for (unsigned int s = 0; s <= degree_v; s++)
         {
             temp[s] = glm::vec<dim, T>(0.0);
-            for (int r = 0; r <= degree_u; r++)
+            for (unsigned int r = 0; r <= degree_u; r++)
             {
                 temp[s] += static_cast<T>(ders_u(k, r)) *
                            control_points(span_u - degree_u + r, span_v - degree_v + s);
@@ -197,7 +197,7 @@ surfaceDerivatives(unsigned int degree_u, unsigned int degree_v, const std::vect
 
         for (int l = 0; l <= dd; l++)
         {
-            for (int s = 0; s <= degree_v; s++)
+            for (unsigned int s = 0; s <= degree_v; s++)
             {
                 surf_ders(k, l) += ders_v(l, s) * temp[s];
             }
